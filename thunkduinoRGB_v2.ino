@@ -1,20 +1,17 @@
+//variable for Serial input
 int input = 0;
-int LED = 13;
 
-int redPin = 11;
-int greenPin = 9;
-int bluePin = 10;
-
-
-int colour_value = 1;
-
-int red, green, blue;
-
-//#define COMMON_ANODE
-
+//Pins for LEDs
+const int LED = 13;
+const int redPin = 11;
+const int greenPin = 9;
+const int bluePin = 10;
 
 void setup() {
+  //Start the serial monitor at 9600 baud
   Serial.begin(9600);
+  
+  //Declare the LEDs to be outputs
   pinMode(LED, OUTPUT);
   pinMode(redPin, OUTPUT);
   pinMode(greenPin, OUTPUT);
@@ -22,8 +19,12 @@ void setup() {
 }
 
 void loop() {
+  //check if there's incoming data,
   if(Serial.available() > 0){
+    //if so, then read the incoming data.
     input = Serial.read();
+    
+    //make different colours depending on the input value
     if(input == '1'){
       make_colour(255,0,0);
     }
@@ -33,38 +34,24 @@ void loop() {
     else if(input == '3' ){
       make_colour(0,0,255);
     }
-    else if(input == 4 ){
+    else if(input == '4' ){
       make_colour(0,0,0);
     }
-    else if(input == 5 ){
+    else if(input == '5' ){
       make_colour(255,255,255);
     }
-}
+  }
 }
 
 void make_colour(int r, int g, int b){
-  #ifdef COMMON_ANODE
-    red = 255 - red;
-    green = 255 - green;
-    blue = 255 - blue;
-  #endif
+  //just for testing
   Serial.println("Making Colour");
+  
+  //sets the duty cycle for each pin
   analogWrite(redPin, r);
   analogWrite(greenPin, g);
   analogWrite(bluePin, b);
 }
 
-void status_report(){
-  Serial.print("Red: ");
-  Serial.println(red);
-  Serial.print("Green: ");
-  Serial.println(green);
-  Serial.print("Blue: ");
-  Serial.println(blue);
-  Serial.print("Value: ");
-  Serial.println(colour_value);
-  Serial.println("");
-  Serial.println("");
-}
 
 
